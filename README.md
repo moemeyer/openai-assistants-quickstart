@@ -28,6 +28,9 @@ export OPENAI_API_KEY="sk_..."
 npm install
 ```
 
+Ensure this step completes while your environment still has network
+access so all required packages are downloaded.
+
 ### 4. Run
 
 ```shell
