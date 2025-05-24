@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Chat from "../components/chat";
+import { handleBriostackCall } from "../utils/briostack";
 import styles from "./page.module.css";
 
 const PestLanding = () => {
@@ -28,6 +29,14 @@ const PestLanding = () => {
   const scrollToContact = () => {
     const el = document.getElementById("contact");
     if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const functionCallHandler = async (call) => {
+    if (call?.function?.name === "call_briostack") {
+      const args = JSON.parse(call.function.arguments);
+      const result = await handleBriostackCall(args);
+      return JSON.stringify(result);
+    }
   };
 
   return (
@@ -185,7 +194,7 @@ const PestLanding = () => {
         <section id="chat">
           <h2>Chat with Our Assistant</h2>
           <p>Ask us anything about your account or services.</p>
-          <Chat />
+          <Chat functionCallHandler={functionCallHandler} />
         </section>
       </div>
 

@@ -31,7 +31,7 @@ const brioFunction = {
 };
 
 // Call the Briostack API
-async function handleBriostackCall({
+export async function handleBriostackCall({
   endpoint,
   method,
   payload,
