@@ -184,6 +184,7 @@ const PestLanding = () => {
 
         <section id="chat">
           <h2>Chat with Our Assistant</h2>
+          <p>Ask us anything about your account or services.</p>
           <Chat />
         </section>
       </div>

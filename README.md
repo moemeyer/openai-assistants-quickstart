@@ -86,6 +86,9 @@ node scripts/briostack-example.ts
 to try a simple request if you have set `BRIOSTACK_INSTANCE_NAME` and
 `BRIOSTACK_API_KEY` in your environment.
 
+The `app/utils/briostack.ts` file also exposes helper methods like
+`listCustomers`, `getCustomer`, and `listProperties` for common API calls.
+
 ## Feedback
 
 Let us know if you have any thoughts, questions, or feedback in [this form](https://docs.google.com/forms/d/e/1FAIpQLScn_RSBryMXCZjCyWV4_ebctksVvQYWkrq90iN21l1HLv3kPg/viewform?usp=sf_link)!

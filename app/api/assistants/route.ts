@@ -31,6 +31,35 @@ export async function POST() {
           },
         },
       },
+      {
+        type: "function",
+        function: {
+          name: "call_briostack",
+          description: "Make a request to the Briostack API",
+          parameters: {
+            type: "object",
+            properties: {
+              endpoint: {
+                type: "string",
+                description: "The Briostack endpoint path, e.g. '/v1/properties'",
+              },
+              method: {
+                type: "string",
+                enum: ["GET", "POST", "PUT", "DELETE"],
+              },
+              payload: {
+                type: "object",
+                description: "JSON body for POST/PUT requests",
+              },
+              query: {
+                type: "object",
+                description: "Query params as key/value pairs",
+              },
+            },
+            required: ["endpoint", "method"],
+          },
+        },
+      },
       { type: "file_search" },
     ],
   });
