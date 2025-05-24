@@ -86,3 +86,29 @@ export async function chatWithBriostack(userPrompt: string) {
   }
   return choice.message.content;
 }
+
+// Convenience wrappers for common Briostack API endpoints
+export const listProperties = (query?: Record<string, string>) =>
+  handleBriostackCall({ endpoint: "/v1/properties", method: "GET", query });
+
+export const listCustomers = (query?: Record<string, string>) =>
+  handleBriostackCall({ endpoint: "/v1/customers", method: "GET", query });
+
+export const getCustomer = (customerId: string) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}`,
+    method: "GET",
+  });
+
+export const createCustomer = (payload: Record<string, unknown>) =>
+  handleBriostackCall({ endpoint: "/v1/customers", method: "POST", payload });
+
+export const updateCustomer = (
+  customerId: string,
+  payload: Record<string, unknown>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}`,
+    method: "PUT",
+    payload,
+  });
