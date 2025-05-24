@@ -4,8 +4,17 @@ import styles from "../shared/page.module.css";
 
 import Chat from "../../components/chat";
 import FileViewer from "../../components/file-viewer";
+import { handleBriostackCall } from "../../utils/briostack";
 
 const FileSearchPage = () => {
+  const functionCallHandler = async (call) => {
+    if (call?.function?.name === "call_briostack") {
+      const args = JSON.parse(call.function.arguments);
+      const result = await handleBriostackCall(args);
+      return JSON.stringify(result);
+    }
+  };
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -14,7 +23,7 @@ const FileSearchPage = () => {
         </div>
         <div className={styles.chatContainer}>
           <div className={styles.chat}>
-            <Chat />
+            <Chat functionCallHandler={functionCallHandler} />
           </div>
         </div>
       </div>
