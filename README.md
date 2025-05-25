@@ -39,6 +39,10 @@ npm run dev
 
 ### 5. Navigate to [http://localhost:3000](http://localhost:3000).
 
+The Briostack API specification used by the examples lives at
+`public/briostack-openapi.json`. Feel free to explore it for a full list of
+available endpoints.
+
 ## Deployment
 
 You can deploy this project to Vercel or any other platform that supports Next.js.
@@ -91,6 +95,14 @@ to try a simple request if you have set `BRIOSTACK_INSTANCE_NAME` and
 
 The `app/utils/briostack.ts` file also exposes helper methods like
 `listCustomers`, `getCustomer`, and `listProperties` for common API calls.
+Additional helpers such as `listAppointments`, `createAppointment`, and
+`listServices` demonstrate how to access other paid endpoints defined in the
+`public/briostack-openapi.json` specification. You can try them with the new
+script:
+
+```ts
+node scripts/briostack-appointments.ts
+```
 
 ## Feedback
 
