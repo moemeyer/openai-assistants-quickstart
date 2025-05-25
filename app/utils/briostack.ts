@@ -112,3 +112,55 @@ export const updateCustomer = (
     method: "PUT",
     payload,
   });
+// Appointment helpers
+export const listAppointments = (
+  customerId: string,
+  query?: Record<string, string>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/appointments`,
+    method: "GET",
+    query,
+  });
+
+export const getAppointment = (
+  customerId: string,
+  appointmentId: string
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/appointments/${appointmentId}`,
+    method: "GET",
+  });
+
+export const createAppointment = (
+  customerId: string,
+  payload: Record<string, unknown>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/appointments`,
+    method: "POST",
+    payload,
+  });
+
+// Service helpers
+export const listServices = (
+  customerId: string,
+  query?: Record<string, string>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/services`,
+    method: "GET",
+    query,
+  });
+
+export const getService = (
+  customerId: string,
+  serviceId: string
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/services/${serviceId}`,
+    method: "GET",
+  });
+
+export const listAllServices = (query?: Record<string, string>) =>
+  handleBriostackCall({ endpoint: "/v1/services", method: "GET", query });
