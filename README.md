@@ -38,9 +38,16 @@ export GHL_API_KEY="your-ghl-api-key"
 ```shell
 npm install
 ```
+You can also use `pnpm install` or `yarn` if you prefer those package managers.
 
 Ensure this step completes while your environment still has network
 access so all required packages are downloaded.
+
+> **Note**: If `npm install` prints `npm warn Unknown env config "http-proxy"`,
+> your shell is exporting `npm_config_http_proxy` or `npm_config_https_proxy`.
+> Those variables are deprecated in newer versions of npm. Unset them or rename
+> them to `HTTP_PROXY`/`HTTPS_PROXY` (or `npm_config_proxy`) to remove the
+> warning.
 
 ### 4. Run
 
@@ -48,11 +55,19 @@ access so all required packages are downloaded.
 npm run dev
 ```
 
-### 5. Navigate to [http://localhost:3000](http://localhost:3000).
+### 5. Run tests
+
+```shell
+npm test
+```
+
+This uses Node's built-in test runner to verify the included Briostack OpenAPI specification.
+
+### 6. Navigate to [http://localhost:3000](http://localhost:3000).
 
 The Briostack API specification used by the examples lives at
 `public/briostack-openapi.json`. Feel free to explore it for a full list of
-available endpoints.
+available endpoints. A basic test in `test/briostack-openapi.test.js` ensures this file can be loaded and contains the expected title.
 
 ## Deployment
 
