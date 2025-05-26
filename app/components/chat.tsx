@@ -13,6 +13,11 @@ type MessageProps = {
   text: string;
 };
 
+interface Message {
+  role: "user" | "assistant" | "code";
+  text: string;
+}
+
 const UserMessage = ({ text }: { text: string }) => {
   return <div className={styles.userMessage}>{text}</div>;
 };
@@ -61,7 +66,7 @@ const Chat = ({
   functionCallHandler = () => Promise.resolve(""), // default to return empty string
 }: ChatProps) => {
   const [userInput, setUserInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
 
@@ -214,10 +219,10 @@ const Chat = ({
     =======================
   */
 
-  const appendToLastMessage = (text) => {
-    setMessages((prevMessages) => {
+  const appendToLastMessage = (text: string) => {
+    setMessages((prevMessages: Message[]) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
-      const updatedLastMessage = {
+      const updatedLastMessage: Message = {
         ...lastMessage,
         text: lastMessage.text + text,
       };
@@ -225,14 +230,14 @@ const Chat = ({
     });
   };
 
-  const appendMessage = (role, text) => {
-    setMessages((prevMessages) => [...prevMessages, { role, text }]);
+  const appendMessage = (role: Message["role"], text: string) => {
+    setMessages((prevMessages: Message[]) => [...prevMessages, { role, text }]);
   };
 
-  const annotateLastMessage = (annotations) => {
-    setMessages((prevMessages) => {
+  const annotateLastMessage = (annotations: any[]) => {
+    setMessages((prevMessages: Message[]) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
-      const updatedLastMessage = {
+      const updatedLastMessage: Message = {
         ...lastMessage,
       };
       annotations.forEach((annotation) => {
