@@ -24,7 +24,7 @@ const FileViewer = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchFiles();
-    }, 1000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -46,7 +46,7 @@ const FileViewer = () => {
 
   const handleFileUpload = async (event) => {
     const data = new FormData();
-    if (event.target.files.length < 0) return;
+    if (event.target.files.length === 0) return;
     data.append("file", event.target.files[0]);
     await fetch("/api/assistants/files", {
       method: "POST",
