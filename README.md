@@ -20,7 +20,7 @@ cd openai-assistants-quickstart
 export OPENAI_API_KEY="sk_..."
 ```
 
-(or in `.env.example` and rename it to `.env`).
+(or copy `.env.example` to `.env`).
 
 ### 3. Install dependencies
 
