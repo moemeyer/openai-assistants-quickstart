@@ -97,11 +97,21 @@ The `app/utils/briostack.ts` file also exposes helper methods like
 `listCustomers`, `getCustomer`, and `listProperties` for common API calls.
 Additional helpers such as `listAppointments`, `createAppointment`, and
 `listServices` demonstrate how to access other paid endpoints defined in the
-`public/briostack-openapi.json` specification. You can try them with the new
+`public/briostack-openapi.json` specification. Recent additions
+`listWebhooks`, `createWebhook`, `getWebhook`, and `updateWebhook` make it easy
+to manage webhook resources as well. New helpers `createService` and
+`updateService` let you modify a service's `serviceSchedule` if needed. You can
+try them with the new
 script:
 
 ```ts
 node scripts/briostack-appointments.ts
+```
+
+You can also inspect a service's schedule with:
+
+```ts
+node scripts/briostack-services.ts
 ```
 
 ## Feedback
