@@ -11,7 +11,7 @@
     "summary" : "API access to Briostack application data"
   },
   "servers" : [ {
-    "url" : "https://pestproridall.briostack.io/rest/v1",
+    "url" : "https://{instance}.briostack.io/rest/v1",
     "description" : "production"
   }, {
     "url" : "https://apisandbox.briostack.io/rest/v1",

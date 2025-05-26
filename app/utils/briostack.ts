@@ -60,20 +60,41 @@ export async function handleBriostackCall({
   method,
   payload,
   query,
+  instanceName,
+  apiKey,
 }: {
   endpoint: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
   payload?: Record<string, unknown>;
   query?: Record<string, string>;
+  instanceName?: string;
+  apiKey?: string;
 }) {
-  const baseUrl = `https://${process.env.BRIOSTACK_INSTANCE_NAME}.briostack.com/api`;
+  const getClientValue = (key: string) =>
+    typeof window === "undefined" ? undefined : localStorage.getItem(key) || undefined;
+
+  const instance =
+    instanceName ||
+    getClientValue("briostackInstanceName") ||
+    process.env.NEXT_PUBLIC_BRIOSTACK_INSTANCE_NAME ||
+    process.env.BRIOSTACK_INSTANCE_NAME ||
+    "";
+
+  const key =
+    apiKey ||
+    getClientValue("briostackApiKey") ||
+    process.env.NEXT_PUBLIC_BRIOSTACK_API_KEY ||
+    process.env.BRIOSTACK_API_KEY ||
+    "";
+
+  const baseUrl = `https://${instance}.briostack.com/api`;
   const url = new URL(baseUrl + endpoint);
   if (query) Object.entries(query).forEach(([k, v]) => url.searchParams.append(k, v));
   const res = await fetch(url.toString(), {
     method,
     headers: {
       "Content-Type": "application/json",
-      "X-API-KEY": process.env.BRIOSTACK_API_KEY || "",
+      "X-API-KEY": key,
     },
     body: payload ? JSON.stringify(payload) : undefined,
   });

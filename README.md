@@ -14,10 +14,21 @@ git clone https://github.com/openai/openai-assistants-quickstart.git
 cd openai-assistants-quickstart
 ```
 
-### 2. Set your [OpenAI API key](https://platform.openai.com/api-keys)
+### 2. Set your [OpenAI API key](https://platform.openai.com/api-keys) and other credentials
 
 ```shell
 export OPENAI_API_KEY="sk_..."
+# Optional integrations
+export BRIOSTACK_INSTANCE_NAME="demo-instance"
+export BRIOSTACK_API_KEY="demo-key"
+export TWILIO_ACCOUNT_SID="your-sid"
+export TWILIO_AUTH_TOKEN="your-token"
+export TWILIO_PHONE_NUMBER="+1234567890"
+export SENDGRID_API_KEY="sg-key"
+export SENDGRID_FROM_EMAIL="no-reply@example.com"
+export STRIPE_SECRET_KEY="sk_test_..."
+export GHL_API_DOMAIN="link.jom.services"
+export GHL_API_KEY="your-ghl-api-key"
 ```
 
 (or in `.env.example` and rename it to `.env`).
@@ -91,7 +102,10 @@ node scripts/briostack-example.ts
 ```
 
 to try a simple request if you have set `BRIOSTACK_INSTANCE_NAME` and
-`BRIOSTACK_API_KEY` in your environment.
+`BRIOSTACK_API_KEY` in your environment. You can also store these
+values in the browser by visiting [`/briostack-connect`](./briostack-connect).
+The page saves your instance name and API key to `localStorage` so the
+helper functions can use them on subsequent visits.
 
 The `app/utils/briostack.ts` file also exposes helper methods like
 `listCustomers`, `getCustomer`, and `listProperties` for common API calls.
@@ -113,6 +127,18 @@ You can also inspect a service's schedule with:
 ```ts
 node scripts/briostack-services.ts
 ```
+
+### Messaging and Payments
+
+This template now includes optional API routes for sending SMS via Twilio,
+sending email via SendGrid, creating Stripe Checkout sessions, and proxying
+requests to GoHighLevel's Lead Connector API. Configure the related environment
+variables in `.env` and POST to the following endpoints:
+
+- `POST /api/messages/send-sms` – send an SMS message
+- `POST /api/messages/send-email` – send an email
+- `POST /api/payments/create-checkout-session` – create a Stripe checkout session
+- `POST /api/ghl/proxy` – proxy a call to your GHL domain
 
 ## Feedback
 
