@@ -1,5 +1,29 @@
 import { openai } from "@/app/openai";
 
+// Types for service scheduling
+export interface AppointmentRegularSchedule {
+  useAppointmentPool?: boolean;
+  requiresConfirmation?: boolean;
+  scheduleType?: "NEVER" | "REGULAR" | "MONTHLY" | "CUSTOM";
+  regularScheduleInterval?: number;
+  regularScheduleIntervalType?: "DAYS" | "WEEKS" | "MONTHS";
+  monthlyScheduleMonths?: number[];
+  weeklyScheduleDays?: string[];
+  monthlyScheduleDays?: { dayOfTheWeek: string; weekNumber: number }[];
+}
+
+export interface ServiceSchedule {
+  customSequenceType?: "RANGE" | "SEQUENCE" | "NONE";
+  recurrence?: "ONETIME" | "RECURRING";
+  schedule?: AppointmentRegularSchedule;
+  onHold?: boolean;
+  lockAppointment?: boolean;
+  arrivalType?: "WINDOW" | "FIXED";
+  arriveAfter?: string;
+  arriveBefore?: string;
+  arriveAt?: string;
+}
+
 // Briostack function schema for OpenAI function calling
 const brioFunction = {
   name: "call_briostack",
@@ -164,3 +188,47 @@ export const getService = (
 
 export const listAllServices = (query?: Record<string, string>) =>
   handleBriostackCall({ endpoint: "/v1/services", method: "GET", query });
+
+export const createService = (
+  customerId: string,
+  payload: Record<string, unknown>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/services`,
+    method: "POST",
+    payload,
+  });
+
+export const updateService = (
+  customerId: string,
+  serviceId: string,
+  payload: Record<string, unknown>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/customers/${customerId}/services/${serviceId}`,
+    method: "PATCH",
+    payload,
+  });
+
+// Webhook helpers
+export const listWebhooks = (query?: Record<string, string>) =>
+  handleBriostackCall({ endpoint: "/v1/webhooks", method: "GET", query });
+
+export const createWebhook = (payload: Record<string, unknown>) =>
+  handleBriostackCall({ endpoint: "/v1/webhooks", method: "POST", payload });
+
+export const getWebhook = (webhookId: string) =>
+  handleBriostackCall({
+    endpoint: `/v1/webhooks/${webhookId}`,
+    method: "GET",
+  });
+
+export const updateWebhook = (
+  webhookId: string,
+  payload: Record<string, unknown>
+) =>
+  handleBriostackCall({
+    endpoint: `/v1/webhooks/${webhookId}`,
+    method: "PUT",
+    payload,
+  });
