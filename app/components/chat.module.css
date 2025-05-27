@@ -1,7 +1,7 @@
 .chatContainer {
   display: flex;
-  flex-direction: column-reverse;
-  height: 100%;
+  flex-direction: column;
+  height: 100dvh;
   width: 100%;
 }
 
@@ -10,7 +10,7 @@
   width: 100%;
   padding: 10px;
   padding-bottom: 40px;
-  order: 1;
+  margin-top: auto;
 }
 
 .input {
@@ -48,7 +48,6 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  order: 2;
   white-space: pre-wrap;
 }
 

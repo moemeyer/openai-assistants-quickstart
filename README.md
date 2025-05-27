@@ -143,6 +143,15 @@ You can also inspect a service's schedule with:
 node scripts/briostack-services.ts
 ```
 
+
+### Realtime API Demo
+
+This repo now includes a minimal example page using the new Realtime API.
+Run `npm run dev` and navigate to `/realtime` to try a WebRTC session in your
+browser. The `/api/realtime/session` endpoint mints an ephemeral token using
+your `OPENAI_API_KEY` for authentication. The client page then connects to the
+Realtime model and streams events back and forth.
+
 ### Messaging and Payments
 
 This template now includes optional API routes for sending SMS via Twilio,
