@@ -6,6 +6,7 @@ import Chat from "../../components/chat";
 import WeatherWidget from "../../components/weather-widget";
 import { getWeather } from "../../utils/weather";
 import { handleBriostackCall } from "../../utils/briostack";
+import { callNextBillionOptimizer } from "../../utils/nextbillion";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
 
 interface WeatherData {
@@ -28,6 +29,11 @@ const FunctionCalling = () => {
     if (call?.function?.name === "call_briostack") {
       const args = JSON.parse(call.function.arguments);
       const result = await handleBriostackCall(args);
+      return JSON.stringify(result);
+    }
+    if (call?.function?.name === "optimize_routes") {
+      const args = JSON.parse(call.function.arguments);
+      const result = await callNextBillionOptimizer(args);
       return JSON.stringify(result);
     }
   };

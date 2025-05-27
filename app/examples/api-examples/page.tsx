@@ -4,12 +4,18 @@ import React from "react";
 import styles from "../basic-chat/page.module.css";
 import Chat from "../../components/chat";
 import { handleBriostackCall } from "../../utils/briostack";
+import { callNextBillionOptimizer } from "../../utils/nextbillion";
 
 const ApiExamples = () => {
   const functionCallHandler = async (call: any) => {
     if (call?.function?.name === "call_briostack") {
       const args = JSON.parse(call.function.arguments);
       const result = await handleBriostackCall(args);
+      return JSON.stringify(result);
+    }
+    if (call?.function?.name === "optimize_routes") {
+      const args = JSON.parse(call.function.arguments);
+      const result = await callNextBillionOptimizer(args);
       return JSON.stringify(result);
     }
   };

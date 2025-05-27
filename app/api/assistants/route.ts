@@ -60,6 +60,29 @@ export async function POST() {
           },
         },
       },
+      {
+        type: "function",
+        function: {
+          name: "optimize_routes",
+          description:
+            "Optimize technician routes using the NextBillion API",
+          parameters: {
+            type: "object",
+            properties: {
+              payload: {
+                type: "object",
+                description:
+                  "JSON body to send to NextBillion's route optimization API",
+              },
+              apiKey: {
+                type: "string",
+                description: "Optional NextBillion API key override",
+              },
+            },
+            required: ["payload"],
+          },
+        },
+      },
       { type: "file_search" },
     ],
   });
