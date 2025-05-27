@@ -144,6 +144,20 @@ node scripts/briostack-services.ts
 ```
 
 
+### NextBillion Route Optimization
+
+This project also includes a helper for [NextBillion's Route Optimization API](https://nextbillion.ai/route-optimization-api).
+Use the `optimize_routes` function to post a JSON payload describing jobs and vehicles.
+The helper lives in `app/utils/nextbillion.ts` and reads `NEXTBILLION_API_KEY` from the environment.
+
+```ts
+import { callNextBillionOptimizer } from "./app/utils/nextbillion";
+const result = await callNextBillionOptimizer({ payload: { /* ... */ } });
+```
+
+You can experiment with this by calling `optimize_routes` in the example chats.
+
+
 ### Realtime API Demo
 
 This repo now includes a minimal example page using the new Realtime API.

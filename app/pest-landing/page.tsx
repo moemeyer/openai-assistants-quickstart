@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Chat from "../components/chat";
 import { handleBriostackCall } from "../utils/briostack";
+import { callNextBillionOptimizer } from "../utils/nextbillion";
 import styles from "./page.module.css";
 
 const PestLanding = () => {
@@ -35,6 +36,11 @@ const PestLanding = () => {
     if (call?.function?.name === "call_briostack") {
       const args = JSON.parse(call.function.arguments);
       const result = await handleBriostackCall(args);
+      return JSON.stringify(result);
+    }
+    if (call?.function?.name === "optimize_routes") {
+      const args = JSON.parse(call.function.arguments);
+      const result = await callNextBillionOptimizer(args);
       return JSON.stringify(result);
     }
   };
