@@ -10,12 +10,15 @@ const Warnings = () => {
 
   const fetchAssistantId = async () => {
     setLoading(true);
-
-    const response = await fetch("/api/assistants", { method: "POST" });
-    const data = await response.json();
-    setNewAssistantId(data.assistantId);
-
-    setLoading(false);
+    try {
+      const response = await fetch("/api/assistants", { method: "POST" });
+      const data = await response.json();
+      setNewAssistantId(data.assistantId);
+    } catch (err) {
+      console.error("Failed to create assistant", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

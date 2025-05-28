@@ -4,7 +4,7 @@ import styles from "./file-viewer.module.css";
 const TrashIcon = () => (
   <svg
     className={styles.fileDeleteIcon}
-    xmlns="http://www.w3.org/2000/svg"
+    xmlns="https://www.w3.org/2000/svg"
     viewBox="0 0 12 12"
     height="12"
     width="12"
@@ -30,28 +30,42 @@ const FileViewer = () => {
   }, []);
 
   const fetchFiles = async () => {
-    const resp = await fetch("/api/assistants/files", {
-      method: "GET",
-    });
-    const data = await resp.json();
-    setFiles(data);
+    try {
+      const resp = await fetch("/api/assistants/files", {
+        method: "GET",
+      });
+      const data = await resp.json();
+      setFiles(data);
+    } catch (err) {
+      console.error("Failed to fetch files", err);
+    }
   };
 
   const handleFileDelete = async (fileId) => {
-    await fetch("/api/assistants/files", {
-      method: "DELETE",
-      body: JSON.stringify({ fileId }),
-    });
+    try {
+      await fetch("/api/assistants/files", {
+        method: "DELETE",
+        body: JSON.stringify({ fileId }),
+      });
+      fetchFiles();
+    } catch (err) {
+      console.error("Failed to delete file", err);
+    }
   };
 
   const handleFileUpload = async (event) => {
     const data = new FormData();
     if (event.target.files.length === 0) return;
     data.append("file", event.target.files[0]);
-    await fetch("/api/assistants/files", {
-      method: "POST",
-      body: data,
-    });
+    try {
+      await fetch("/api/assistants/files", {
+        method: "POST",
+        body: data,
+      });
+      fetchFiles();
+    } catch (err) {
+      console.error("Failed to upload file", err);
+    }
   };
 
   return (

@@ -12,19 +12,21 @@ const PestLanding = () => {
   const [image, setImage] = useState("/images/default.png");
 
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchLocation = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
         const newCity = data.city || "Your Area";
         const newRegion = data.region || "Florida";
         setCity(newCity);
         setRegion(newRegion);
         const imgName = newCity.toLowerCase().replace(/ /g, "-");
         setImage(`/images/${imgName}.jpg`);
-      })
-      .catch(() => {
+      } catch {
         // ignore errors and use defaults
-      });
+      }
+    };
+    fetchLocation();
   }, []);
 
   const scrollToContact = () => {
@@ -33,15 +35,20 @@ const PestLanding = () => {
   };
 
   const functionCallHandler = async (call) => {
-    if (call?.function?.name === "call_briostack") {
-      const args = JSON.parse(call.function.arguments);
-      const result = await handleBriostackCall(args);
-      return JSON.stringify(result);
-    }
-    if (call?.function?.name === "optimize_routes") {
-      const args = JSON.parse(call.function.arguments);
-      const result = await callNextBillionOptimizer(args);
-      return JSON.stringify(result);
+    try {
+      if (call?.function?.name === "call_briostack") {
+        const args = JSON.parse(call.function.arguments);
+        const result = await handleBriostackCall(args);
+        return JSON.stringify(result);
+      }
+      if (call?.function?.name === "optimize_routes") {
+        const args = JSON.parse(call.function.arguments);
+        const result = await callNextBillionOptimizer(args);
+        return JSON.stringify(result);
+      }
+    } catch (err) {
+      console.error(err);
+      return JSON.stringify({ error: "Failed to handle function call" });
     }
   };
 

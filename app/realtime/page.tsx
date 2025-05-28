@@ -6,9 +6,10 @@ export default function RealtimeDemo() {
   const [pc, setPc] = useState<RTCPeerConnection | null>(null);
 
   async function startWebRTC() {
-    const res = await fetch("/api/realtime/session", { method: "POST", body: JSON.stringify({})});
-    const data = await res.json();
-    const token = data.client_secret.value;
+    try {
+      const res = await fetch("/api/realtime/session", { method: "POST", body: JSON.stringify({})});
+      const data = await res.json();
+      const token = data.client_secret.value;
 
     const connection = new RTCPeerConnection();
     setPc(connection);
@@ -29,16 +30,19 @@ export default function RealtimeDemo() {
     const offer = await connection.createOffer();
     await connection.setLocalDescription(offer);
 
-    const res2 = await fetch(`https://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17`, {
-      method: "POST",
-      body: offer.sdp,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/sdp",
-      },
-    });
-    const answer = { type: "answer", sdp: await res2.text() };
-    await connection.setRemoteDescription(answer);
+      const res2 = await fetch(`https://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17`, {
+        method: "POST",
+        body: offer.sdp,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/sdp",
+        },
+      });
+      const answer = { type: "answer", sdp: await res2.text() };
+      await connection.setRemoteDescription(answer);
+    } catch (err) {
+      console.error("Failed to start Realtime session", err);
+    }
   }
 
   return (

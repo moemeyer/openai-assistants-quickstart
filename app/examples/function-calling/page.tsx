@@ -20,21 +20,26 @@ const FunctionCalling = () => {
   const isEmpty = Object.keys(weatherData).length === 0;
 
   const functionCallHandler = async (call: RequiredActionFunctionToolCall) => {
-    if (call?.function?.name === "get_weather") {
-      const args = JSON.parse(call.function.arguments);
-      const data = getWeather(args.location);
-      setWeatherData(data);
-      return JSON.stringify(data);
-    }
-    if (call?.function?.name === "call_briostack") {
-      const args = JSON.parse(call.function.arguments);
-      const result = await handleBriostackCall(args);
-      return JSON.stringify(result);
-    }
-    if (call?.function?.name === "optimize_routes") {
-      const args = JSON.parse(call.function.arguments);
-      const result = await callNextBillionOptimizer(args);
-      return JSON.stringify(result);
+    try {
+      if (call?.function?.name === "get_weather") {
+        const args = JSON.parse(call.function.arguments);
+        const data = await getWeather(args.location);
+        setWeatherData(data);
+        return JSON.stringify(data);
+      }
+      if (call?.function?.name === "call_briostack") {
+        const args = JSON.parse(call.function.arguments);
+        const result = await handleBriostackCall(args);
+        return JSON.stringify(result);
+      }
+      if (call?.function?.name === "optimize_routes") {
+        const args = JSON.parse(call.function.arguments);
+        const result = await callNextBillionOptimizer(args);
+        return JSON.stringify(result);
+      }
+    } catch (err) {
+      console.error(err);
+      return JSON.stringify({ error: "Failed to handle function call" });
     }
   };
 
