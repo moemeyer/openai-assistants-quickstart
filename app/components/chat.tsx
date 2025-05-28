@@ -82,45 +82,59 @@ const Chat = ({
   // create a new threadID when chat component created
   useEffect(() => {
     const createThread = async () => {
-      const res = await fetch(`/api/assistants/threads`, {
-        method: "POST",
-      });
-      const data = await res.json();
-      setThreadId(data.threadId);
+      try {
+        const res = await fetch(`/api/assistants/threads`, {
+          method: "POST",
+        });
+        const data = await res.json();
+        setThreadId(data.threadId);
+      } catch (err) {
+        console.error("Failed to create thread", err);
+      }
     };
     createThread();
   }, []);
 
   const sendMessage = async (text) => {
-    const response = await fetch(
-      `/api/assistants/threads/${threadId}/messages`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          content: text,
-        }),
-      }
-    );
-    const stream = AssistantStream.fromReadableStream(response.body);
-    handleReadableStream(stream);
+    try {
+      const response = await fetch(
+        `/api/assistants/threads/${threadId}/messages`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            content: text,
+          }),
+        }
+      );
+      const stream = AssistantStream.fromReadableStream(response.body);
+      handleReadableStream(stream);
+    } catch (err) {
+      console.error("Failed to send message", err);
+      setInputDisabled(false);
+    }
   };
 
   const submitActionResult = async (runId, toolCallOutputs) => {
-    const response = await fetch(
-      `/api/assistants/threads/${threadId}/actions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          runId: runId,
-          toolCallOutputs: toolCallOutputs,
-        }),
-      }
-    );
-    const stream = AssistantStream.fromReadableStream(response.body);
-    handleReadableStream(stream);
+    try {
+      const response = await fetch(
+        `/api/assistants/threads/${threadId}/actions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            runId: runId,
+            toolCallOutputs: toolCallOutputs,
+          }),
+        }
+      );
+      const stream = AssistantStream.fromReadableStream(response.body);
+      handleReadableStream(stream);
+    } catch (err) {
+      console.error("Failed to submit action result", err);
+      setInputDisabled(false);
+    }
   };
 
   const handleSubmit = (e) => {
